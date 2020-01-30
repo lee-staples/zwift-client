@@ -29,9 +29,12 @@ class Request:
         headers.update(self.DEFAULT_HEADERS)
         return headers
 
-    def json(self, url):
+    def json(self, url, _verb = 'get'):
         headers = self.get_headers(accept_type='application/json')
-        resp = requests.get(self.BASE_URL + url, headers=headers)
+        if _verb == 'post':
+            resp = requests.post(self.BASE_URL + url, headers=headers)
+        else:
+            resp = requests.get(self.BASE_URL + url, headers=headers)        
         if not resp.ok:
             raise RequestException("{} - {}".format(
                 resp.status_code, resp.reason))
