@@ -29,9 +29,11 @@ class Request:
         headers.update(self.DEFAULT_HEADERS)
         return headers
 
-    def json(self, url, _verb = 'get'):
+    def json(self, url, _verb = None, _json = None):
         headers = self.get_headers(accept_type='application/json')
-        if _verb == 'post':
+        if _verb == 'post' and _json is not None:
+            resp = requests.post(self.BASE_URL + url, headers=headers, json=_json)
+        elif _verb == 'post' and _json is None:
             resp = requests.post(self.BASE_URL + url, headers=headers)
         else:
             resp = requests.get(self.BASE_URL + url, headers=headers)        
